@@ -33,6 +33,7 @@ const mainConfig = {
 };
 
 const setup = async () => {
+
   const near = await connect(
     testConfig
   );
