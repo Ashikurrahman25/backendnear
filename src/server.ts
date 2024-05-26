@@ -34,7 +34,6 @@ const mainConfig = {
 
 const setup = async () => {
   const near = await connect(
-    // process.env.NODE_ENV === 'production' ? mainConfig :
     testConfig
   );
   return near;
@@ -45,6 +44,11 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/balance', async (req, res) => {
+
+  res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
   try {
     const { walletId } = req.query;
     const near = await setup();

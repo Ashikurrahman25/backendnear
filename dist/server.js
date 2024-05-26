@@ -64,13 +64,16 @@ const mainConfig = {
     explorerUrl: 'https://nearblocks.io',
 };
 const setup = () => __awaiter(void 0, void 0, void 0, function* () {
-    const near = yield connect(process.env.NODE_ENV === 'production' ? mainConfig : testConfig);
+    const near = yield connect(testConfig);
     return near;
 });
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send('Hello World');
 }));
 app.get('/balance', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         const { walletId } = req.query;
         const near = yield setup();
