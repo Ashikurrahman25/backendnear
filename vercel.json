@@ -11,6 +11,13 @@
     {
       "src": "/(.*)",
       "dest": "dist/server.js"
+    },
+    {
+      "src": "/balance",
+      "methods": ["GET"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://ashikurrahman25.github.io"
+      }
     }
   ]
 }
