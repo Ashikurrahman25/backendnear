@@ -64,7 +64,7 @@ const mainConfig = {
     explorerUrl: 'https://nearblocks.io',
 };
 const setup = () => __awaiter(void 0, void 0, void 0, function* () {
-    const near = yield connect(process.env.NODE_ENV === 'production' ? mainConfig : testConfig);
+    const near = yield connect(testConfig);
     return near;
 });
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
