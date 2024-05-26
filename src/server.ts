@@ -33,9 +33,7 @@ const mainConfig = {
 };
 
 const setup = async () => {
-  const near = await connect(
-    // process.env.NODE_ENV === 'production' ? mainConfig :
-    testConfig
+  const near = await connect( testConfig
   );
   return near;
 };
