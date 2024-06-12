@@ -98,7 +98,8 @@ app.get('/balance', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const { walletId } = req.query;
         const near = yield setup();
         const account = yield near.account(walletId);
-        const balance = yield account.getAccountBalance();
+        const _bal = yield account.getAccountBalance();
+        const balance = (Number(_bal.total) / Math.pow(10, 24)).toFixed(2);
         res.json({ balance });
     }
     catch (error) {
@@ -122,9 +123,10 @@ app.get('/spearbalance', (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { account_id } = req.body;
         console.log(account_id);
-        const balance = yield contract['ft_balance_of']({
+        const _bal = yield contract['ft_balance_of']({
             account_id: account_id
         });
+        const balance = _bal / Math.pow(10, 8);
         res.json({ balance });
     }
     catch (error) {

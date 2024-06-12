@@ -89,8 +89,10 @@ app.get('/balance', async (req, res) => {
     const { walletId } = req.query;
     const near = await setup();
     const account = await near.account(walletId as string);
-    const balance = await account.getAccountBalance();
-    res.json({ balance });
+    const _bal = await account.getAccountBalance();
+    const balance = (Number(_bal.total)/Math.pow(10,24)).toFixed(2);
+
+    res.json({  balance });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error });
@@ -116,9 +118,13 @@ app.get('/spearbalance', async (req, res) => {
   try {
     const { account_id } = req.body;
     console.log(account_id)
-  const balance = await (contract as any)['ft_balance_of']({
+  const _bal = await (contract as any)['ft_balance_of']({
     account_id:account_id
   })
+
+  const balance = _bal/Math.pow(10,8)
+
+  
     res.json({ balance });
   } catch (error) {
     res.status(500).json({ error: error });
