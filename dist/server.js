@@ -47,7 +47,7 @@ const { Contract } = nearAPI;
 const myKeyStore = new keyStores.InMemoryKeyStore();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
-app.use((0, cors_1.default)({ origin: ['http://localhost:3000', 'https://spearonnear.github.io/SpearHit/', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/', 'https://spearonnear.github.io/', '*'] }));
+app.use((0, cors_1.default)({ origin: ['https://spearonnear.github.io/SpearHit/', 'https://ashikurrahman25.github.io', 'https://spearonnear.github.io/'] }));
 const { connect } = nearAPI;
 const testConfig = {
     keyStore: myKeyStore, // first create a key store
