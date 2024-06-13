@@ -15,7 +15,7 @@ const myKeyStore = new keyStores.InMemoryKeyStore();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(cors({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/','*'] }));
 
 const { connect } = nearAPI;
 
@@ -109,12 +109,6 @@ app.get('/get_greeting', async (req, res) => {
 });
 
 app.get('/spearbalance', async (req, res) => {
-
-
-  res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
   try {
     const { account_id } = req.body;
     console.log(account_id)
