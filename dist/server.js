@@ -47,7 +47,7 @@ const { Contract } = nearAPI;
 const myKeyStore = new keyStores.InMemoryKeyStore();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
-app.use((0, cors_1.default)({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/', '*'] }));
+app.use((0, cors_1.default)({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/', 'https://spearonnear.github.io/', '*'] }));
 const { connect } = nearAPI;
 const testConfig = {
     keyStore: myKeyStore, // first create a key store
@@ -207,7 +207,6 @@ app.post('/claim', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //   logs,
         //   receipt,
         // };
-        console.log(functionCallResult.transaction_outcome.id);
         res.json({ success: true, message: "Successfully claimed reward!", txnLink: `https://testnet.nearblocks.io/txns/${functionCallResult.transaction_outcome.id}` });
     }
     catch (error) {
