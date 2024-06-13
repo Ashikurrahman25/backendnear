@@ -47,7 +47,7 @@ const { Contract } = nearAPI;
 const myKeyStore = new keyStores.InMemoryKeyStore();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
-app.use((0, cors_1.default)({ origin: ['http://localhost:3000', 'https://nearvidia.com'] }));
+app.use((0, cors_1.default)({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'https://ashikurrahman25.github.io', 'https://ashikurrahman25.github.io/spwallet/', '*'] }));
 const { connect } = nearAPI;
 const testConfig = {
     keyStore: myKeyStore, // first create a key store
@@ -91,9 +91,6 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send('Hello World');
 }));
 app.get('/balance', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         const { walletId } = req.query;
         const near = yield setup();
@@ -116,10 +113,21 @@ app.get('/get_greeting', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ error: error });
     }
 }));
-app.get('/spearbalance', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+app.get('/spbl', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { account_id } = req.query;
+        console.log(account_id);
+        const _bal = yield contract['ft_balance_of']({
+            account_id: account_id
+        });
+        const balance = _bal / Math.pow(10, 8);
+        res.json({ balance });
+    }
+    catch (error) {
+        res.status(500).json({ error: error });
+    }
+}));
+app.post('/spearbalance', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { account_id } = req.body;
         console.log(account_id);
@@ -158,9 +166,6 @@ app.post('/set_greeting', (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 }));
 app.post('/claim', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         console.log(req.body);
         const { receiver_id, amount, memo } = req.body;
