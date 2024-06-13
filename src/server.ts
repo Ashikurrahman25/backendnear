@@ -11,11 +11,10 @@ const { keyStores } = nearAPI;
 const { Contract } = nearAPI;
 const myKeyStore = new keyStores.InMemoryKeyStore();
 
-
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(cors({ origin: ['http://localhost:3000', 'https://nearvidia.com'] }));
 
 const { connect } = nearAPI;
 
