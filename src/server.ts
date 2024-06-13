@@ -80,11 +80,6 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/balance', async (req, res) => {
-
-    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
   try {
     const { walletId } = req.query;
     const near = await setup();
@@ -108,7 +103,7 @@ app.get('/get_greeting', async (req, res) => {
   }
 });
 
-app.get('/spearbalance', async (req, res) => {
+app.post('/spearbalance', async (req, res) => {
   try {
     const { account_id } = req.body;
     console.log(account_id)
