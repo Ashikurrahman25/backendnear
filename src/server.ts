@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(cors({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'http://localhost:52042'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://nearvidia.com', 'http://localhost:52042', 'https://ashikurrahman25.github.io'] }));
 
 const { connect } = nearAPI;
 
