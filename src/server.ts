@@ -103,6 +103,27 @@ app.get('/get_greeting', async (req, res) => {
   }
 });
 
+
+
+app.get('/spbl', async (req, res) => {
+  try {
+    const { account_id } = req.query;
+    console.log(account_id)
+  const _bal = await (contract as any)['ft_balance_of']({
+    account_id:account_id
+  })
+
+  const balance = _bal/Math.pow(10,8)
+
+  
+    res.json({ balance });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+
+});
+
+
 app.post('/spearbalance', async (req, res) => {
   try {
     const { account_id } = req.body;
@@ -154,11 +175,6 @@ app.post('/set_greeting', async (req, res) => {
 });
 
 app.post('/claim', async (req, res) => {
-
-
-  res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   try {
 
