@@ -81,7 +81,7 @@ app.get('/', async (req, res) => {
 
 app.get('/balance', async (req, res) => {
 
-    res.header('Access-Control-Allow-Origin', '*'); // Allow your specific origin
+    res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -111,7 +111,7 @@ app.get('/get_greeting', async (req, res) => {
 app.get('/spearbalance', async (req, res) => {
 
 
-  res.header('Access-Control-Allow-Origin', '*'); // Allow your specific origin
+  res.header('Access-Control-Allow-Origin', 'https://ashikurrahman25.github.io'); // Allow your specific origin
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow specific HTTP methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
