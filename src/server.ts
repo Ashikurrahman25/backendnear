@@ -5,7 +5,6 @@ import express, { raw } from 'express';
 const app = express();
 import cors from 'cors';
 import * as nearAPI from 'near-api-js';
-import { FinalExecutionOutcome } from 'near-api-js/lib/providers/provider';
 import { KeyPair, utils } from 'near-api-js';
 const { keyStores } = nearAPI;
 const { Contract } = nearAPI;
@@ -37,39 +36,39 @@ const mainConfig = {
   explorerUrl: 'https://nearblocks.io',
 };
 
-
+//ed25519:5Rn4YVZ2s1BtCgHJ2AGzGGQcs9rdkPipo4KPhR99pmtcE9unvS5LnM4eDU5kKT6KmEouqocvnpVsLRfh7ZCcXuku --> Tresurer
 //"account_id":"splaunch.testnet","public_key":"ed25519:5aisAqwijq1segvM9LxABeo9iEGVg8nJKZrn3Pcq8HSX","private_key":"ed25519:UvQcP2QzWxguaqSCpcNJv6tCVL52sBZeySoFHMEsGYgYZ2gzJHnMXe93dGRoSp7vJjLxssvfrx6pEAzP1YvWUoH"
 //ed25519:bMc9FpDZqiCzEXovFcPnWjMwggErxboRMiUkmtL4t2EutykFr6ZnHVA6RzgvRF8VuwYpU7141PPqB7HnPjtF1kA
+//{"account_id":"spprxy.testnet","public_key":"ed25519:3p4ThHdWbFTytHyJg5AcZ5ysn6BENwZ7MVGAS1Qirdv8","private_key":"ed25519:2ib34o82gCLjg5eoWnLgyBCKLgGyQMUQHi9ggXXJAkaDxG4LC9F68NXxME1mSS1TNPFBu3QQrWjaaeBGmSsbAGTi"}
 let contract: nearAPI.Contract;
-let account;
+let account: nearAPI.Account;
+
 const setup = async () => {
 
   console.log("setup");
-  const PRIVATE_KEY = "ed25519:UvQcP2QzWxguaqSCpcNJv6tCVL52sBZeySoFHMEsGYgYZ2gzJHnMXe93dGRoSp7vJjLxssvfrx6pEAzP1YvWUoH"; // Directly use the private key
+  const PRIVATE_KEY = "ed25519:5Rn4YVZ2s1BtCgHJ2AGzGGQcs9rdkPipo4KPhR99pmtcE9unvS5LnM4eDU5kKT6KmEouqocvnpVsLRfh7ZCcXuku"; // Directly use the private key
   const keyPair = KeyPair.fromString(PRIVATE_KEY);
-  // console.log('KeyPair:', keyPair); // Debug: print the key pair
-  await myKeyStore.setKey('testnet', 'splaunch.testnet', keyPair);
+  await myKeyStore.setKey('testnet', 'sptreasurer.testnet', keyPair);
   
   const near = await connect(
     testConfig
   );
 
-  
 
-  const account = await near.account("splaunch.testnet");
+  account = await near.account("sptreasurer.testnet");
   const methodOptions = {
-    viewMethods: ['ft_balance_of', 'get_greeting'],
-    changeMethods: ['ft_transfer', 'set_greeting'],
+    viewMethods: [''],
+    changeMethods: [`send_ft_to_user`],
     useLocalViewExecution: true 
   };
 
-  contract = new Contract(account,"splaunch.testnet",
+  contract = new Contract(account,"spp2e.testnet",
   methodOptions
 );
+
 console.log("Setup Done");
 
   return near;
-
 
 };
 
@@ -94,18 +93,26 @@ app.get('/balance', async (req, res) => {
   }
 });
 
-app.get('/get_greeting', async (req, res) => {
-  try {
-  const greeting = await (contract as any)['get_greeting']()
-    res.json({ greeting });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-});
-
-
 
 app.get('/spbl', async (req, res) => {
+
+    const near = await connect(
+      testConfig
+    );
+
+
+  const account = await near.account('splaunch.testnet');
+
+  const methodOptions = {
+    viewMethods: ['ft_balance_of'],
+    changeMethods: [],
+    useLocalViewExecution: true 
+  };
+
+  contract = new Contract(account,"splaunch.testnet",
+  methodOptions
+);
+
   try {
     const { account_id } = req.query;
     console.log(account_id)
@@ -123,58 +130,7 @@ app.get('/spbl', async (req, res) => {
 
 });
 
-
-app.post('/spearbalance', async (req, res) => {
-  try {
-    const { account_id } = req.body;
-    console.log(account_id)
-  const _bal = await (contract as any)['ft_balance_of']({
-    account_id:account_id
-  })
-
-  const balance = _bal/Math.pow(10,8)
-
-  
-    res.json({ balance });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-});
-
-
-
-app.get('/getAllPlayerPoints', async (req, res) => {
-  try {
-  const playerPoints = await (contract as any)['getAllPlayerPoints']()
-    res.json({ playerPoints });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-});
-
-app.post('/set_greeting', async (req, res) => {
-  try {
-
-    const { greeting } = req.body;
-
-    if (!greeting) {
-      return res.status(400).json({ error: 'Missing "greeting" in the request body.' });
-    }
-
-    // Call the contract's set_greeting method
-    const result = await (contract as any)['set_greeting']({ greeting });
-
-
-    console.log(result);
-
-    res.json({ success: true, message: "Successfully updated greeting message!" });
-
-  } catch (error: any) {
-    res.status(500).json({ error:"New " + error.message });
-  }
-});
-
-app.post('/claim', async (req, res) => {
+app.post('/claimMock', async (req, res) => {
 
   try {
 
@@ -203,40 +159,101 @@ app.post('/claim', async (req, res) => {
       gas: BigInt (100000000000000), // attached GAS (optional)
       attachedDeposit: BigInt(1) // attached deposit in yoctoNEAR (optional)
     });
-  
 
-    // Call the contract's set_greeting method
-    // const result = await (contract as any)['ft_transfer'](
-    // {
-    //   receiver_id: receiver_id,
-    //   amount: amount,
-    //   memo:memo
-    // }
-    // ,"10000000000000"
-    // ,"1"
-
-    // );
-
-
-
-  // // Extract transaction hash from the function call result
-  // const transactionHash = functionCallResult.transaction.hash;
-
-  // // Extract transaction status using the transaction hash
-  // const transactionStatus = await near.connection.provider.txStatus(transactionHash, acc.accountId);
-
-  // // Extract and log the contract execution logs
-  // const logs = transactionStatus.receipts_outcome.flatMap(outcome => outcome.outcome.logs);
-
-  // // Log the transaction receipt
-  // const receipt = transactionStatus.transaction_outcome;
-
-  // return {
-  //   logs,
-  //   receipt,
-  // };
 
   res.json({ success: true, message: "Successfully claimed reward!",txnLink:`https://testnet.nearblocks.io/txns/${functionCallResult.transaction_outcome.id}` });
+
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/claim', async (req, res) => {
+
+  try {
+
+    console.log(req.body)
+    const { recipient, amount } = req.body;
+
+
+    if (!recipient) {
+      return res.status(400).json({ error: 'Missing "greeting" in the request body.' });
+    }
+
+      
+
+    const functionCallResult = await account.functionCall({
+      contractId: 'spp2e.testnet',
+      methodName: 'send_ft_to_user',
+      args: {
+        recipient,
+        amount,
+      },
+      gas: BigInt (100000000000000), // attached GAS (optional)
+      attachedDeposit: BigInt(1) // attached deposit in yoctoNEAR (optional)
+    });
+
+
+    function isFailureStatus(status: any): status is { Failure: any } {
+      return status && typeof status === 'object' && 'Failure' in status;
+    }
+    
+    function isSuccessStatus(status: any): status is { SuccessValue: any } {
+      return status && typeof status === 'object' && 'SuccessValue' in status;
+    }
+
+    function stringifyWithDepth(obj:any, depth = 5) {
+      return JSON.stringify(obj, (key, value) => (depth && typeof value === 'object' && value !== null) ? {...value, depth: depth - 1} : value, 2);
+    }
+    
+    function getExecutionError(error: any): string | null {
+      if (error && error.ActionError && error.ActionError.kind && error.ActionError.kind.FunctionCallError) {
+        return error.ActionError.kind.FunctionCallError.ExecutionError || null;
+      }
+      return null;
+    }
+
+    // Check for overall transaction success
+    if (isSuccessStatus(functionCallResult.status)) {
+      // console.log('Transaction succeeded:', functionCallResult.status.SuccessValue);
+    } else {
+      // console.log('Transaction status:', functionCallResult.status);
+    }
+    let status = 'success';
+    let exception = '';
+
+    if (functionCallResult.receipts_outcome) {
+      functionCallResult.receipts_outcome.forEach(outcome => {
+        const outcomeStatus = outcome.outcome.status;
+    
+        if (isFailureStatus(outcomeStatus)) {
+          status = 'error';
+          // console.error('Transaction failed in outcome:', stringifyWithDepth (outcomeStatus.Failure));
+          // Extract the detailed execution error
+          const executionError = outcomeStatus.Failure.ActionError;
+          exception = executionError;
+
+          if (executionError) {
+            console.error('Execution error:', executionError);
+          } else {
+            console.error('Detailed error info:', outcomeStatus.Failure);
+          }
+        } else if (isSuccessStatus(outcomeStatus)) {
+          // console.log('Receipt outcome succeeded:', outcomeStatus.SuccessValue);
+        } else {
+          // console.log('Receipt outcome status:', outcomeStatus);
+        }
+      });
+    }
+
+    let result:any;
+    if(status === 'success'){
+      result ={ success: true, message: "Successfully claimed reward!",txnLink:`https://testnet.nearblocks.io/txns/${functionCallResult.transaction_outcome.id}` }
+    }
+    else{
+      result = { success: false, message: exception ,txnLink:`null`}
+    }
+  res.json(result);
 
   } catch (error: any) {
     res.status(500).json({ error: error.message });
