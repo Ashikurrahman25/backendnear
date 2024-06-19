@@ -14,7 +14,7 @@ const myKeyStore = new keyStores.InMemoryKeyStore();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(cors({ origin: ['https://spearonnear.github.io/SpearHit/', 'https://ashikurrahman25.github.io','https://spearonnear.github.io/', '*'] }));
+app.use(cors({ origin: ['https://spearonnear.github.io/SpearHit', 'https://ashikurrahman25.github.io','https://spearonnear.github.io', '*'] }));
 
 const { connect } = nearAPI;
 
