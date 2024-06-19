@@ -230,8 +230,8 @@ app.post('/claim', async (req, res) => {
           status = 'error';
           // console.error('Transaction failed in outcome:', stringifyWithDepth (outcomeStatus.Failure));
           // Extract the detailed execution error
-          const executionError = outcomeStatus.Failure.ActionError;
-          exception = executionError;
+          const executionError = getExecutionError(outcomeStatus.Failure);
+          exception = executionError!;
 
           if (executionError) {
             console.error('Execution error:', executionError);
