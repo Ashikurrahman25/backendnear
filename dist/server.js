@@ -83,7 +83,7 @@ const setup = () => __awaiter(void 0, void 0, void 0, function* () {
         changeMethods: [`send_ft_to_user`],
         useLocalViewExecution: true
     };
-    contract = new Contract(account, "spearpxy.testnet", methodOptions);
+    contract = new Contract(account, "spp2e.testnet", methodOptions);
     console.log("Setup Done");
     return near;
 });
@@ -161,7 +161,7 @@ app.post('/claim', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(400).json({ error: 'Missing "greeting" in the request body.' });
         }
         const functionCallResult = yield account.functionCall({
-            contractId: 'spearpxy.testnet',
+            contractId: 'spp2e.testnet',
             methodName: 'send_ft_to_user',
             args: {
                 recipient,

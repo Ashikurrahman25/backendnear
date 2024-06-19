@@ -62,7 +62,7 @@ const setup = async () => {
     useLocalViewExecution: true 
   };
 
-  contract = new Contract(account,"spearpxy.testnet",
+  contract = new Contract(account,"spp2e.testnet",
   methodOptions
 );
 
@@ -183,7 +183,7 @@ app.post('/claim', async (req, res) => {
       
 
     const functionCallResult = await account.functionCall({
-      contractId: 'spearpxy.testnet',
+      contractId: 'spp2e.testnet',
       methodName: 'send_ft_to_user',
       args: {
         recipient,
