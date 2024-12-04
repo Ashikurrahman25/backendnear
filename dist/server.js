@@ -134,6 +134,7 @@ app.post('/claimMock', (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (!receiver_id) {
             return res.status(400).json({ error: 'Missing "greeting" in the request body.' });
         }
+        const _amount = (amount * Math.pow(10, 8)).toString();
         const near = yield connect(testConfig);
         const acc = yield near.account('splaunch.testnet');
         const functionCallResult = yield acc.functionCall({
@@ -141,7 +142,7 @@ app.post('/claimMock', (req, res) => __awaiter(void 0, void 0, void 0, function*
             methodName: 'ft_transfer',
             args: {
                 receiver_id,
-                amount,
+                _amount,
                 memo
             },
             gas: BigInt(100000000000000), // attached GAS (optional)

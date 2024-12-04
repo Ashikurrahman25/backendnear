@@ -142,6 +142,7 @@ app.post('/claimMock', async (req, res) => {
       return res.status(400).json({ error: 'Missing "greeting" in the request body.' });
     }
 
+    const _amount = (amount * Math.pow(10,8)).toString();
       
   const near = await connect(
     testConfig
@@ -153,7 +154,7 @@ app.post('/claimMock', async (req, res) => {
       methodName: 'ft_transfer',
       args: {
         receiver_id,
-        amount,
+        _amount,
         memo
       },
       gas: BigInt (100000000000000), // attached GAS (optional)
