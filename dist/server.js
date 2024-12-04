@@ -73,7 +73,7 @@ let contract;
 let account;
 const setup = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("setup");
-    const PRIVATE_KEY = "ed25519:5Rn4YVZ2s1BtCgHJ2AGzGGQcs9rdkPipo4KPhR99pmtcE9unvS5LnM4eDU5kKT6KmEouqocvnpVsLRfh7ZCcXuku"; // Directly use the private key
+    const PRIVATE_KEY = "ed25519:UvQcP2QzWxguaqSCpcNJv6tCVL52sBZeySoFHMEsGYgYZ2gzJHnMXe93dGRoSp7vJjLxssvfrx6pEAzP1YvWUoH"; // Directly use the private key
     const keyPair = near_api_js_1.KeyPair.fromString(PRIVATE_KEY);
     yield myKeyStore.setKey('testnet', 'sptreasurer.testnet', keyPair);
     const near = yield connect(testConfig);
