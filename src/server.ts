@@ -48,7 +48,7 @@ const setup = async () => {
   console.log("setup");
   const PRIVATE_KEY = "ed25519:UvQcP2QzWxguaqSCpcNJv6tCVL52sBZeySoFHMEsGYgYZ2gzJHnMXe93dGRoSp7vJjLxssvfrx6pEAzP1YvWUoH"; // Directly use the private key
   const keyPair = KeyPair.fromString(PRIVATE_KEY);
-  await myKeyStore.setKey('testnet', 'sptreasurer.testnet', keyPair);
+  await myKeyStore.setKey('testnet', 'splaunch.testnet', keyPair);
   
   const near = await connect(
     testConfig
