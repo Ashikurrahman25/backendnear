@@ -142,7 +142,7 @@ app.post('/claimMock', (req, res) => __awaiter(void 0, void 0, void 0, function*
             methodName: 'ft_transfer',
             args: {
                 receiver_id,
-                _amount,
+                amount: _amount,
                 memo
             },
             gas: BigInt(100000000000000), // attached GAS (optional)

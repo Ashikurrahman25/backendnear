@@ -154,7 +154,7 @@ app.post('/claimMock', async (req, res) => {
       methodName: 'ft_transfer',
       args: {
         receiver_id,
-        _amount,
+        amount:_amount,
         memo
       },
       gas: BigInt (100000000000000), // attached GAS (optional)
